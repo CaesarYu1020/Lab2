@@ -12,15 +12,13 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     int rnum,mnum;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mnum=-1;
         final EditText  et=findViewById(R.id.et);
-        final RadioButton  rb1=findViewById(R.id.rb1);
-        final RadioButton rb2=findViewById(R.id.rb2);
-        final RadioButton rb3=findViewById(R.id.rb3);
         final Button btn=findViewById(R.id.btn);
         final TextView name = findViewById(R.id.name);
         final TextView win = findViewById(R.id.win);
@@ -28,15 +26,41 @@ public class MainActivity extends AppCompatActivity {
         final TextView ai=findViewById(R.id.ai);
         final RadioGroup rg=findViewById(R.id.rg);
         final TextView show=findViewById(R.id.show);
-        mnum=-1;
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (rg.getCheckedRadioButtonId()) {
+
+                    case R.id.rb1:
+                        me.setText("剪刀");
+                        mnum = 1;
+                        break;
+                    case R.id.rb2:
+                        me.setText("石頭");
+                        mnum = 2;
+                        break;
+                    case R.id.rb3:
+                        me.setText("布");
+                        mnum = 3;
+                        break;
+                }
+            }
+        });
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View v) {
 
 
-                if(et.getText().toString().equals(""))
-                {show.setText("請選擇玩家名稱");}
-                else {
+                if (et.getText().toString().equals("")) {
+                    show.setText("請選擇玩家名稱");
+                }else if(mnum==-1){
+                    show.setText("請選擇出拳的種類");
+                }
+
+                else{
                     rnum = (int) (Math.random() * 3) + 1;
                     name.setText(et.getText());
                     switch (rnum) {
@@ -51,27 +75,14 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
 
-                    if (mnum == -1) {
-                        show.setText("請選擇出拳的種類");
-                    }else{
-                    switch (rg.getCheckedRadioButtonId()) {
-                        case R.id.rb1:
-                            me.setText("剪刀");
-                            mnum = 1;
-                            break;
-                        case R.id.rb2:
-                            me.setText("石頭");
-                            mnum = 2;
-                            break;
-                        case R.id.rb3:
-                            me.setText("布");
-                            mnum = 3;
-                            break;
-                    }
 
                     if (rnum == 1) {
+
                         if (mnum == 1)
+                        {
                             win.setText("平手");
+                            show.setText("平局，再試一場吧");
+                        }
 
                         else if (mnum == 2) {
                             win.setText(name.getText().toString());
@@ -82,8 +93,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     if (rnum == 2) {
+
                         if (mnum == 2)
+                        {
                             win.setText("平手");
+                            show.setText("平局，再試一場吧");
+                        }
 
                         else if (mnum == 3) {
                             win.setText(name.getText().toString());
@@ -94,9 +109,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     if (rnum == 3) {
-                        if (mnum == 3)
+                        if (mnum == 3) {
                             win.setText("平手");
-
+                            show.setText("平局，再試一場吧");
+                        }
                         else if (mnum == 1) {
                             win.setText(name.getText().toString());
                             show.setText("恭喜你獲勝了!!");
@@ -106,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-                }
+
 
 
             }
